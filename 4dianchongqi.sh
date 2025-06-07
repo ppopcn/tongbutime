@@ -11,6 +11,7 @@ elif grep -qEi "debian|ubuntu" /etc/os-release; then
     sudo systemctl restart cron 2>/dev/null || sudo service cron restart 2>/dev/null
 elif grep -q "alpine" /etc/os-release; then
     # Alpine: 使用 crontab -e 方式
+    apk add sudo curl bash wget
     (sudo crontab -l 2>/dev/null; echo "0 4 * * * /sbin/shutdown -r now") | sudo crontab -
     sudo rc-service crond restart 2>/dev/null || sudo rc-service cron restart 2>/dev/null
 else
