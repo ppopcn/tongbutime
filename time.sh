@@ -20,6 +20,7 @@ elif grep -qEi "centos|rhel|fedora" /etc/os-release 2>/dev/null; then
     sudo systemctl enable --now chronyd
 elif grep -q "alpine" /etc/os-release 2>/dev/null; then
     # Alpine 分支
+    apk add sudo
     sudo apk add --no-cache chrony ntpdate bash curl wget
     sudo rc-service chronyd restart 2>/dev/null || sudo rc-service chrony restart
 else
