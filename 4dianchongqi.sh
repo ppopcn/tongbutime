@@ -6,7 +6,10 @@ if grep -qEi "centos|rhel|fedora" /etc/os-release; then
     echo "0 4 * * * root /sbin/shutdown -r now" | sudo tee -a /etc/crontab >/dev/null
     sudo systemctl restart crond
 elif grep -qEi "debian|ubuntu" /etc/os-release; then
-    # Debian/Ubuntu: 写入 /etc/crontab（服务名是 cron 而非 cron.service）
+    # Debian/Ubuntu: 先用 apt 安装必要工具
+    apt-get update -y
+    apt-get install -y sudo wget bash cron
+    # 写入 /etc/crontab（服务名是 cron 而非 crond）
     echo "0 4 * * * root /sbin/shutdown -r now" | sudo tee -a /etc/crontab >/dev/null
     sudo systemctl restart cron 2>/dev/null || sudo service cron restart 2>/dev/null
 elif grep -q "alpine" /etc/os-release; then
